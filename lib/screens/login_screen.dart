@@ -7,11 +7,18 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AuthBackground(child: Container(
-        width: double.infinity,
-        height: 300,
-        color: Colors.red,
-      ),),
+      body: AuthBackground(child: SingleChildScrollView(child: Column(
+        children: [
+          SizedBox(height: 100,),
+
+          CardContainer(child: Column(children: [
+            SizedBox(height: 10,),
+            Text('login',style: Theme.of(context).textTheme.bodyMedium,),
+            SizedBox(height: 30,),
+            Text('formulario')
+          ],)),
+        ],
+      ),)),
    );
   }
 }
