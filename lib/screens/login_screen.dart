@@ -15,10 +15,48 @@ class LoginScreen extends StatelessWidget {
             SizedBox(height: 10,),
             Text('login',style: Theme.of(context).textTheme.bodyMedium,),
             SizedBox(height: 30,),
-            Text('formulario')
+            _LoginForm(),
           ],)),
+          SizedBox(height: 50,),
+          Text('Crear nueva cuenta')
         ],
       ),)),
    );
+  }
+}
+
+
+class _LoginForm extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Form(child: Column(children: [
+
+        TextFormField(
+          autocorrect: false,
+          keyboardType: TextInputType.emailAddress,
+          decoration: InputDecoration(
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.deepPurple,
+              ),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.deepPurple,
+                width: 2,
+              ),
+            ),
+            hintText: 'Email',
+            labelText: 'correo electronico',
+            labelStyle: TextStyle(color: Colors.grey),
+            prefixIcon: Icon(Icons.alternate_email_outlined,color: Colors.indigo,)
+          ),
+        )
+
+
+      ],)),
+    );
   }
 }
