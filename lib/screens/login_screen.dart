@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:products_app/ui/input_decorations.dart';
 import 'package:products_app/widgets/widgets.dart';
 
 
@@ -18,7 +19,11 @@ class LoginScreen extends StatelessWidget {
             _LoginForm(),
           ],)),
           SizedBox(height: 50,),
-          Text('Crear nueva cuenta')
+          Text('Crear nueva cuenta'),
+          SizedBox(
+              height: 50,
+            ),
+
         ],
       ),)),
    );
@@ -36,24 +41,30 @@ class _LoginForm extends StatelessWidget {
         TextFormField(
           autocorrect: false,
           keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
-            enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: Colors.deepPurple,
-              ),
-            ),
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: Colors.deepPurple,
-                width: 2,
-              ),
-            ),
-            hintText: 'Email',
-            labelText: 'correo electronico',
-            labelStyle: TextStyle(color: Colors.grey),
-            prefixIcon: Icon(Icons.alternate_email_outlined,color: Colors.indigo,)
+          decoration: InputDecorations.authInputDecoration(hintText: 'noseuqepn@gmail.com', labelText: 'correo electronico',prefixIcon: Icons.alternate_email_outlined),
+        ),
+        SizedBox(height: 30,),
+        TextFormField(
+            autocorrect: false,
+            obscureText: true,
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecorations.authInputDecoration(
+                hintText: '******',
+                labelText: 'Contraseña',
+                prefixIcon: Icons.lock_clock_outlined),
           ),
-        )
+          SizedBox(height: 30,),
+
+          MaterialButton(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            disabledColor: Colors.grey,
+            elevation: 0,
+            color: Colors.deepPurple,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 80,vertical: 15),
+              child: Text('Ingresar',style: TextStyle(color: Colors.white),),
+            ),
+            onPressed: null)
 
 
       ],)),
