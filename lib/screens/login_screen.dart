@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:products_app/providers/login_form_provider.dart';
 import 'package:products_app/ui/input_decorations.dart';
 import 'package:products_app/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -26,7 +28,9 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(
                   height: 30,
                 ),
-                _LoginForm(),
+                ChangeNotifierProvider(create:(_) => LoginFormProvider(),
+                child: _LoginForm(),),
+                
               ],
             )),
             SizedBox(
@@ -46,8 +50,10 @@ class LoginScreen extends StatelessWidget {
 class _LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final loginForm = Provider.of<LoginFormProvider>(context);
     return Container(
       child: Form(
+        key: loginForm.formKey,
         autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
         children: [
@@ -58,6 +64,7 @@ class _LoginForm extends StatelessWidget {
                 hintText: 'noseuqepn@gmail.com',
                 labelText: 'correo electronico',
                 prefixIcon: Icons.alternate_email_outlined),
+                onChanged: (value) => loginForm.email = value,
             validator: (value) {
               String pattern =
                   r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -78,6 +85,7 @@ class _LoginForm extends StatelessWidget {
                 hintText: '******',
                 labelText: 'Contraseña',
                 prefixIcon: Icons.lock_clock_outlined),
+                onChanged: (value) => loginForm.password = value,
             validator: (value) {
               return (value != null && value.length >= 6)
                   ? null
@@ -100,7 +108,9 @@ class _LoginForm extends StatelessWidget {
                   style: TextStyle(color: Colors.white),
                 ),
               ),
-              onPressed: null)
+              onPressed: (() {
+                loginForm.isValidForm();
+              }))
         ],
       )),
     );
