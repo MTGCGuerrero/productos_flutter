@@ -10,7 +10,7 @@ class AppState extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [ChangeNotifierProvider(create: (_) => ProductsService())],
-      child: MyApp(),
+      child: const MyApp(),
     );
   }
 }
@@ -27,15 +27,15 @@ class MyApp extends StatelessWidget {
       routes: {
         'login' : (_) => LoginScreen(),
         'home': (_) => HomeScreen(),
-        'product': (_) => ProductsScreen(),
+        'product': (_) => ProductScreen(),
       },
       theme: ThemeData.light().copyWith(
         scaffoldBackgroundColor: Colors.grey[300],
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           elevation: 0,
           color: Colors.indigo,
         ),
-        floatingActionButtonTheme: FloatingActionButtonThemeData(
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
           backgroundColor: Colors.indigo,
           elevation: 0
         ),

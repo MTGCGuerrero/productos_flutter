@@ -1,19 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:products_app/providers/product_form_provider.dart';
 import 'package:products_app/services/products_service.dart';
 import 'package:products_app/ui/input_decorations.dart';
 import 'package:products_app/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
 
-class ProductsScreen extends StatelessWidget {
-
+class ProductScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final productService = Provider.of<ProductsService>(context);
-   return Scaffold(
+
+    return ChangeNotifierProvider(
+      create: (_) => ProductFormProvider(productService.selectedProduct),
+      child: _ProductScreenBody(productService: productService),
+    );
+  }
+}
+
+class _ProductScreenBody extends StatelessWidget {
+  const _ProductScreenBody({
+    Key? key,
+    required this.productService,
+  }) : super(key: key);
+
+  final ProductsService productService;
+
+  @override
+  Widget build(BuildContext context) {
+    final productForm = Provider.of<ProductFormProvider>(context);
+
+    return Scaffold(
       body: SingleChildScrollView(
-        // keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Column(
           children: [
             Stack(
@@ -24,7 +44,7 @@ class ProductsScreen extends StatelessWidget {
                     left: 20,
                     child: IconButton(
                       onPressed: () => Navigator.of(context).pop(),
-                      icon: Icon(Icons.arrow_back_ios_new,
+                      icon: const Icon(Icons.arrow_back_ios_new,
                           size: 40, color: Colors.white),
                     )),
                 Positioned(
@@ -32,50 +52,51 @@ class ProductsScreen extends StatelessWidget {
                     right: 20,
                     child: IconButton(
                       onPressed: () async {
-                        // final picker = new ImagePicker();
-                        // final PickedFile? pickedFile = await picker.getImage(
-                        //     // source: ImageSource.gallery,
-                        //     source: ImageSource.camera,
-                        //     imageQuality: 100);
+                      //   final picker = new ImagePicker();
+                      //   final PickedFile? pickedFile = await picker.getImage(
+                      //       // source: ImageSource.gallery,
+                      //       source: ImageSource.camera,
+                      //       imageQuality: 100);
 
-                        // if (pickedFile == null) {
-                        //   print('No seleccionó nada');
-                        //   return;
-                        // }
+                      //   if (pickedFile == null) {
+                      //     print('No seleccionó nada');
+                      //     return;
+                      //   }
 
-                        // productService
-                        //     .updateSelectedProductImage(pickedFile.path);
-                      },
-                      icon: Icon(Icons.camera_alt_outlined,
-                          size: 40, color: Colors.white),
+                      //   productService
+                      //       .updateSelectedProductImage(pickedFile.path);
+                      // },
+                      icon: const Icon(Icons.camera_alt_outlined,
+                          size: 40, color: Colors.white);
                     ))
               ],
             ),
             _ProductForm(),
-            SizedBox(height: 100),
+            const SizedBox(height: 100),
           ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      // floatingActionButton: FloatingActionButton(
-      //   child: productService.isSaving
-      //       ? CircularProgressIndicator(color: Colors.white)
-      //       : Icon(Icons.save_outlined),
-      //   onPressed: productService.isSaving
-      //       ? null
-      //       : () async {
-      //           if (!productForm.isValidForm()) return;
+      floatingActionButton: FloatingActionButton(
+        child: productService.isSaving
+            ? const CircularProgressIndicator(color: Colors.white)
+            : const Icon(Icons.save_outlined),
+        onPressed: productService.isSaving
+            ? null
+            : () async {
+                if (!productForm.isValidForm()) return;
 
-      //           final String? imageUrl = await productService.uploadImage();
+                final String? imageUrl = await productService.uploadImage();
 
-      //           if (imageUrl != null) productForm.product.picture = imageUrl;
+                if (imageUrl != null) productForm.product.picture = imageUrl;
 
-      //           await productService.saveOrCreateProduct(productForm.product);
-      //         },
-      // ),
-   );
+                await productService.saveOrCreateProduct(productForm.product);
+              },
+      ),
+    );
   }
 }
+
 class _ProductForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -83,9 +104,9 @@ class _ProductForm extends StatelessWidget {
     final product = productForm.product;
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         width: double.infinity,
         decoration: _buildBoxDecoration(),
         child: Form(
@@ -93,7 +114,7 @@ class _ProductForm extends StatelessWidget {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             children: [
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               TextFormField(
                 initialValue: product.name,
                 onChanged: (value) => product.name = value,
@@ -104,7 +125,7 @@ class _ProductForm extends StatelessWidget {
                 decoration: InputDecorations.authInputDecoration(
                     hintText: 'Nombre del producto', labelText: 'Nombre:'),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               TextFormField(
                 initialValue: '${product.price}',
                 inputFormatters: [
@@ -122,13 +143,13 @@ class _ProductForm extends StatelessWidget {
                 decoration: InputDecorations.authInputDecoration(
                     hintText: '\$150', labelText: 'Precio:'),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               SwitchListTile.adaptive(
                   value: product.available,
-                  title: Text('Disponible'),
+                  title: const Text('Disponible'),
                   activeColor: Colors.indigo,
                   onChanged: productForm.updateAvailability),
-              SizedBox(height: 30)
+              const SizedBox(height: 30)
             ],
           ),
         ),
@@ -138,13 +159,13 @@ class _ProductForm extends StatelessWidget {
 
   BoxDecoration _buildBoxDecoration() => BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
               bottomRight: Radius.circular(25),
               bottomLeft: Radius.circular(25)),
           boxShadow: [
             BoxShadow(
                 color: Colors.black.withOpacity(0.05),
-                offset: Offset(0, 5),
+                offset: const Offset(0, 5),
                 blurRadius: 5)
           ]);
 }
