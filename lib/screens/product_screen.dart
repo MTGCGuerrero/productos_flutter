@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:products_app/providers/product_form_provider.dart';
 import 'package:products_app/services/products_service.dart';
 import 'package:products_app/ui/input_decorations.dart';
@@ -52,22 +53,22 @@ class _ProductScreenBody extends StatelessWidget {
                     right: 20,
                     child: IconButton(
                       onPressed: () async {
-                      //   final picker = new ImagePicker();
-                      //   final PickedFile? pickedFile = await picker.getImage(
-                      //       // source: ImageSource.gallery,
-                      //       source: ImageSource.camera,
-                      //       imageQuality: 100);
+                        final picker = new ImagePicker();
+                        final PickedFile? pickedFile = (await picker.pickImage(
+                            // source: ImageSource.gallery,
+                            source: ImageSource.camera,
+                            imageQuality: 100)) as PickedFile?;
 
-                      //   if (pickedFile == null) {
-                      //     print('No seleccionó nada');
-                      //     return;
-                      //   }
+                        if (pickedFile == null) {
+                          print('No seleccionó nada');
+                          return;
+                        }
 
-                      //   productService
-                      //       .updateSelectedProductImage(pickedFile.path);
-                      // },
+                        productService
+                            .updateSelectedProductImage(pickedFile.path);
+                      },
                       icon: const Icon(Icons.camera_alt_outlined,
-                          size: 40, color: Colors.white);
+                          size: 40, color: Colors.white)
                     ))
               ],
             ),
@@ -119,8 +120,9 @@ class _ProductForm extends StatelessWidget {
                 initialValue: product.name,
                 onChanged: (value) => product.name = value,
                 validator: (value) {
-                  if (value == null || value.length < 1)
+                  if (value == null || value.length < 1) {
                     return 'El nombre es obligatorio';
+                  }
                 },
                 decoration: InputDecorations.authInputDecoration(
                     hintText: 'Nombre del producto', labelText: 'Nombre:'),
