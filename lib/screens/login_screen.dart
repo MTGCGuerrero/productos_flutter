@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:products_app/providers/login_form_provider.dart';
+import 'package:products_app/services/services.dart';
 import 'package:products_app/ui/input_decorations.dart';
 import 'package:products_app/widgets/widgets.dart';
 import 'package:provider/provider.dart';
@@ -40,7 +41,8 @@ class LoginScreen extends StatelessWidget {
               height: 50,
             ),
             TextButton(
-              onPressed: (() => Navigator.pushReplacementNamed(context, 'login')),
+              onPressed: (() =>
+                  Navigator.pushReplacementNamed(context, 'login')),
               style: ButtonStyle(
                   overlayColor:
                       MaterialStateProperty.all(Colors.indigo.withOpacity(0.1)),
@@ -123,13 +125,15 @@ class _LoginForm extends StatelessWidget {
 
                         // ignore: todo
                         // TODO: validar si el login es correcto
+                        NotificationsService.showSnackbar('Error al iniciar');
                         loginForm.isLoading = false;
 
                         // ignore: use_build_context_synchronously
                         Navigator.pushReplacementNamed(context, 'home');
                       },
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
                   child: Text(
                     loginForm.isLoading ? 'Espere' : 'Ingresar',
                     style: const TextStyle(color: Colors.white),
