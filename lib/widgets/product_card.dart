@@ -35,8 +35,8 @@ class ProductCard extends StatelessWidget {
   BoxDecoration _cardBorders() => BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(25),
-          boxShadow: [
-            const BoxShadow(
+          boxShadow: const [
+            BoxShadow(
                 color: Colors.black12, offset: Offset(0, 7), blurRadius: 10)
           ]);
 }
@@ -143,7 +143,7 @@ class _BackgroundImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(25),
-      child: Container(
+      child: SizedBox(
         width: double.infinity,
         height: 400,
         child: url == null

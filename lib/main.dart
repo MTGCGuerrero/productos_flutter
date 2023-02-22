@@ -3,9 +3,11 @@ import 'package:products_app/screens/screens.dart';
 import 'package:products_app/services/services.dart';
 import 'package:provider/provider.dart';
 
-void main() => runApp( AppState());
+void main() => runApp( const AppState());
 
 class AppState extends StatelessWidget {
+  const AppState({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -25,9 +27,10 @@ class MyApp extends StatelessWidget {
       title: 'Productos App',
       initialRoute: 'login',
       routes: {
-        'login' : (_) => LoginScreen(),
-        'home': (_) => HomeScreen(),
-        'product': (_) => ProductScreen(),
+        'login' : (_) => const LoginScreen(),
+        'home': (_) => const HomeScreen(),
+        'product': (_) => const ProductScreen(),
+        'register' : (_) => const RegisterScreen(),
       },
       theme: ThemeData.light().copyWith(
         scaffoldBackgroundColor: Colors.grey[300],

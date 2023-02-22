@@ -7,15 +7,17 @@ import '../models/models.dart';
 import '../services/services.dart';
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final productsService = Provider.of<ProductsService>(context);
 
-    if (productsService.isLoading) return LoadingScreen();
+    if (productsService.isLoading) return const LoadingScreen();
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Productos'),
+        title: const Text('Productos'),
       ),
       body: ListView.builder(
           itemCount: productsService.products.length,
@@ -30,7 +32,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               )),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         onPressed: () {
           productsService.selectedProduct =
               Product(available: false, name: '', price: 0);

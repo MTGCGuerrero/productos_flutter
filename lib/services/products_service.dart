@@ -62,8 +62,10 @@ class ProductsService extends ChangeNotifier {
     final resp = await http.put(url, body: product.toJson());
     final decodedData = resp.body;
 
-    final index =
-        products.indexWhere((element) => element.id == product.id);
+    // ignore: avoid_print
+    print(decodedData);
+
+    final index = products.indexWhere((element) => element.id == product.id);
     products[index] = product;
 
     return product.id!;
@@ -108,7 +110,9 @@ class ProductsService extends ChangeNotifier {
     final resp = await http.Response.fromStream(streamResponse);
 
     if (resp.statusCode != 200 && resp.statusCode != 201) {
+      // ignore: avoid_print
       print('algo salio mal');
+      // ignore: avoid_print
       print(resp.body);
       return null;
     }

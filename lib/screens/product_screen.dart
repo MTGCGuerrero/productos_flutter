@@ -9,6 +9,8 @@ import 'package:provider/provider.dart';
 
 
 class ProductScreen extends StatelessWidget {
+  const ProductScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final productService = Provider.of<ProductsService>(context);
@@ -60,6 +62,7 @@ class _ProductScreenBody extends StatelessWidget {
                             imageQuality: 100)) as PickedFile?;
 
                         if (pickedFile == null) {
+                          // ignore: avoid_print
                           print('No seleccionó nada');
                           return;
                         }
@@ -120,9 +123,10 @@ class _ProductForm extends StatelessWidget {
                 initialValue: product.name,
                 onChanged: (value) => product.name = value,
                 validator: (value) {
-                  if (value == null || value.length < 1) {
+                  if (value == null || value.isEmpty) {
                     return 'El nombre es obligatorio';
                   }
+                  return null;
                 },
                 decoration: InputDecorations.authInputDecoration(
                     hintText: 'Nombre del producto', labelText: 'Nombre:'),
